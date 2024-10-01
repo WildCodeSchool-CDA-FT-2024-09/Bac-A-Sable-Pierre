@@ -1,0 +1,18 @@
+###afficher repo
+GET http://localhost:3000/api/repos
+
+### create repo
+POST  http://localhost:3000/api/repos
+Content-Type: application/json
+
+{
+    "id": "test2024",
+    "name": "new Repo2024",
+    "url": "http://imprime-tes-idées",
+    "isPrivate": 2
+  }
+
+
+### afficher language
+
+GET http://localhost:3000/api/langue
