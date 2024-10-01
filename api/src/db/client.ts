@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { Repo } from "../repos/repo.entities";
-import { Langue } from "../repos/langue.entities";
-import { Status } from "../repos/status.entities";
+import { Langue } from "../langue/langue.entities";
+import { Status } from "../status/status.entities";
 
 export const dataSource = new DataSource({
   type: "sqlite",

@@ -1,6 +1,6 @@
 import express, { Response, Request } from "express";
 
-import { Status } from "../repos/status.entities";
+import { Status } from "../status/status.entities";
 
 const statusControllers = express.Router();
 

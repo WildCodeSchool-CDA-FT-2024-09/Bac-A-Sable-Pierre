@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Repo } from "./repo.entities";
+import { Repo } from "../repos/repo.entities";
 
 @Entity()
 export class Status extends BaseEntity {

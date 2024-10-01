@@ -6,9 +6,9 @@ POST  http://localhost:3000/api/repos
 Content-Type: application/json
 
 {
-    "id": "kikiki",
-    "name": "petitkiki",
-    "url": "http://lekiki.com",
+    "id": "bobobobo",
+    "name": "lebeausite",
+    "url": "http://lebeausite.com",
     "status": 1
   }
 
