@@ -1,6 +1,7 @@
 import "reflect-metadata";
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToMany, PrimaryColumn } from "typeorm";
 import { Min, Max, IsString } from "class-validator";
+import { Status } from "../repos/status.entities";
 
 @Entity()
 export class Repo extends BaseEntity {
@@ -16,8 +17,8 @@ export class Repo extends BaseEntity {
   @IsString()
   url: string;
 
-  @Column()
+  @ManyToMany(() => Status, (status) => status.id)
   @Min(1)
   @Max(2)
-  isPrivate: number;
+  status: Status;
 }

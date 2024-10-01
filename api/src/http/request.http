@@ -6,13 +6,26 @@ POST  http://localhost:3000/api/repos
 Content-Type: application/json
 
 {
-    "id": "test2024",
-    "name": "new Repo2024",
-    "url": "http://imprime-tes-idées",
-    "isPrivate": 2
+    "id": "kikiki",
+    "name": "petitkiki",
+    "url": "http://lekiki.com",
+    "status": 1
   }
 
 
 ### afficher language
 
 GET http://localhost:3000/api/langue
+
+### Afficher status
+
+GET http://localhost:3000/api/status
+
+### create status
+POST http://localhost:3000/api/status
+Content-Type: application/json
+
+{
+    
+    "label": "privé"
+  }

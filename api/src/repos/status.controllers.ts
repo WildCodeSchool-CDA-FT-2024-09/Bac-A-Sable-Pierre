@@ -1,22 +1,31 @@
 import express, { Response, Request } from "express";
-import status from "../../status.json";
-import type { Status } from "./status.type";
+
+import { Status } from "../repos/status.entities";
 
 const statusControllers = express.Router();
 
-statusControllers.get(`/`, (_: any, res: Response) => {
-  res.status(200).json(status);
+statusControllers.get("/", async (_: any, res: Response) => {
+  try {
+    const status = await Status.find({
+      relations: {
+        repos: true,
+      },
+    });
+    res.status(200).json(status);
+  } catch (error) {
+    res.sendStatus(500);
+  }
 });
 
-statusControllers.get("/:id", (req: Request, res: Response) => {
-  const statu = status.find(
-    (rep) => rep.id === Number(req.params.id)
-  ) as Status;
+statusControllers.post("/", async (req: Request, res: Response) => {
+  try {
+    const status = new Status();
+    status.label = req.body.label;
 
-  if (statu) {
-    res.status(200).json(statu);
-  } else {
-    res.sendStatus(404);
+    await status.save();
+    res.status(201).json(status);
+  } catch (error) {
+    res.sendStatus(500);
   }
 });
 
