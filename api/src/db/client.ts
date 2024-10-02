@@ -8,5 +8,4 @@ export const dataSource = new DataSource({
   database: "./src/db/db.sqlite",
   entities: [Repo, Langue, Status],
   synchronize: true,
-  logging: true,
 });
