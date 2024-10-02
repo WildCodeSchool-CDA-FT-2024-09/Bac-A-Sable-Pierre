@@ -1,13 +1,24 @@
 import "reflect-metadata";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { IsString } from "class-validator";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+
+import { Repo } from "../repos/repo.entities";
 
 @Entity()
 export class Langue extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
-  @IsString()
   label: string;
+
+  @ManyToMany(() => Repo, (repo) => repo.langs)
+  @JoinTable()
+  repos?: Repo[];
 }

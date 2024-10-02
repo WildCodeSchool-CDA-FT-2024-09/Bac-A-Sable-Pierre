@@ -4,11 +4,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   PrimaryColumn,
 } from "typeorm";
+
 import { IsString } from "class-validator";
 import { Status } from "../status/status.entities";
+import { Langue } from "../langue/langue.entities";
 
 @Entity()
 export class Repo extends BaseEntity {
@@ -27,4 +30,7 @@ export class Repo extends BaseEntity {
   @ManyToOne(() => Status, (status) => status.id)
   @JoinColumn()
   status: Status;
+
+  @ManyToMany(() => Langue, (lang) => lang.repos)
+  langs?: Langue[];
 }
