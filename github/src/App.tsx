@@ -35,6 +35,8 @@ function App() {
               name={repo.name}
               url={repo.url}
               isPrivate={repo.isPrivate}
+              status={repo.status.label}
+              langs={repo.langs}
             />
           ))}
         </div>
