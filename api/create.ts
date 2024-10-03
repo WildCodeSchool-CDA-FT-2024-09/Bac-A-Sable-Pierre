@@ -18,7 +18,7 @@ type LangRaw = { node: { name: string } };
 
 (async () => {
   const raw = await JSON.parse(
-    fs.readFileSync("raw.json", { encoding: "utf-8" })
+    fs.readFileSync("./src/data/raw.json", { encoding: "utf-8" })
   );
 
   const repo: Repo[] = raw.map(
@@ -46,20 +46,23 @@ type LangRaw = { node: { name: string } };
     });
   });
 
-  await fs.writeFile("repos.json", JSON.stringify(repo), (err) =>
+  await fs.writeFile("./src/data/repos.json", JSON.stringify(repo), (err) =>
     err ? console.error(err) : console.log("File repo is ready")
   );
 
-  await fs.writeFile("langs.json", JSON.stringify(langs), (err) =>
+  await fs.writeFile("./src/data/langs.json", JSON.stringify(langs), (err) =>
     err ? console.error(err) : console.log("File langs is ready")
   );
 
-  await fs.writeFile("lang_by_repo.json", JSON.stringify(lang_by_repo), (err) =>
-    err ? console.error(err) : console.log("File langs by repo is ready")
+  await fs.writeFile(
+    "./src/data/lang_by_repo.json",
+    JSON.stringify(lang_by_repo),
+    (err) =>
+      err ? console.error(err) : console.log("File langs by repo is ready")
   );
 
   await fs.writeFile(
-    "status.json",
+    "./src/data/status.json",
     JSON.stringify([
       {
         id: 1,

@@ -1,25 +1,19 @@
-interface RepoCardProps {
-  id: string;
-  name: string;
-  url: string;
-  isPrivate: number;
-  status: string; // On attend directement le label du statut
-  langs: { id: number; label: string }[]; // Tableau de langues avec id et label
-}
+import { RepoCardProps } from "../types/RepoCardProps";
 
-function RepoCard({ id, name, url, status, langs }: RepoCardProps) {
+function RepoCard({ name, url, status, langs }: RepoCardProps) {
   return (
     <section className="repo-card">
-      <h2>Nom : {name}</h2>
+      <h2> {name}</h2>
       <h3 className="card">
         <a href={url} target="_blank" rel="noopener noreferrer">
-          {url}
+          {" "}
+          Cliquer ici pour accéder au repo
         </a>
       </h3>
-      <h4>Statut: {status}</h4>
+      <h4> {status}</h4>
 
       <ul>
-        <h2>Languagues:</h2>
+        <h2>Languagues</h2>
         {langs.map((lang) => (
           <>
             <li key={lang.id}> {lang.label}</li>
