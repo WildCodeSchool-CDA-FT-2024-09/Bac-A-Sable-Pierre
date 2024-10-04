@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import { RepoCardProps } from "../types/RepoCardProps";
 
-function RepoCard({ name, url, status, langs }: RepoCardProps) {
+function RepoCard({ id, name, url, status, langs }: RepoCardProps) {
   return (
     <section className="repo-card">
       <h2> {name}</h2>
@@ -19,6 +20,7 @@ function RepoCard({ name, url, status, langs }: RepoCardProps) {
             <li key={lang.id}> {lang.label}</li>
           </>
         ))}
+        <Link to={`/detail/${id}`}>Détail</Link>
       </ul>
     </section>
   );

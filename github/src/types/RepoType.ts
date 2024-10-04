@@ -15,4 +15,19 @@ export type Repo = {
   url: string;
   status: Status;
   langs: Lang[];
+  label: string;
 };
+
+export interface RepoDetail {
+  id: string;
+  name: string;
+  url: string;
+  status: {
+    id: number;
+    label: string;
+  };
+  langs: {
+    id: number;
+    label: string;
+  }[];
+}
