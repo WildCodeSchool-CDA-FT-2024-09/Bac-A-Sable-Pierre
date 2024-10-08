@@ -65,4 +65,23 @@ repoControllers.post("/", async (req: Request, res: Response) => {
   }
 });
 
+repoControllers.patch("/:id", async (req: Request, res: Response) => {
+  console.log("Pathc REPOS", req.body);
+  try {
+    const repos = await Repo.findOneOrFail({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    repos.isFavorite = req.body.isFavorite;
+    repos.save();
+
+    res.sendStatus(203);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
 export default repoControllers;

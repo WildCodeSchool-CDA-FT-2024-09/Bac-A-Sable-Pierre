@@ -16,6 +16,7 @@ export type Repo = {
   status: Status;
   langs: Lang[];
   label: string;
+  isFavorite: boolean;
 };
 
 export interface RepoDetail {

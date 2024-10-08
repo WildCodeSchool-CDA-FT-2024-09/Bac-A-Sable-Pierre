@@ -8,14 +8,26 @@ export default function Detail() {
   console.log("Initialisation du Detail");
   const { id } = useParams();
 
-  const [data, setData] = useState<Repo | null>(null);
+  const [data, setData] = useState<Repo>();
+
+  const handleLike = async () => {
+    try {
+      await connexion.patch(`/repos/${id}`, {
+        isFavorite: !data?.isFavorite,
+      });
+      const newRepos = { ...data } as Repo;
+      newRepos.isFavorite = !data?.isFavorite;
+      setData(newRepos);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     console.log("I'm the useEffect");
     const fetchRepos = async () => {
       try {
-        const repos = await connexion.get<Repo[]>(`/api/repos/${id}`);
-        console.log(" useEffect repos", repos);
+        const repos = await connexion.get(`/repos/${id}`);
         setData(repos.data[0]);
       } catch (error) {
         console.error(error);
@@ -26,17 +38,14 @@ export default function Detail() {
 
   return (
     <>
-      <div>Detail du Repo {id}</div>
-      <div>
-        {data ? (
-          <>
-            <h1>nom {data.name}</h1>
-            <p>{data.label}</p>
-          </>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
+      {data && (
+        <div>
+          <h1>{data.name}</h1>
+          <button type="button" onClick={handleLike}>
+            {data.isFavorite ? "DisLike" : "Like"}
+          </button>
+        </div>
+      )}
     </>
   );
 }

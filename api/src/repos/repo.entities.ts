@@ -9,7 +9,7 @@ import {
   PrimaryColumn,
 } from "typeorm";
 
-import { IsString } from "class-validator";
+import { IsBoolean, IsString } from "class-validator";
 import { Status } from "../status/status.entities";
 import { Langue } from "../langue/langue.entities";
 
@@ -26,6 +26,10 @@ export class Repo extends BaseEntity {
   @Column()
   @IsString()
   url: string;
+
+  @Column({ default: () => false })
+  @IsBoolean()
+  isFavorite: boolean;
 
   @ManyToOne(() => Status, (status) => status.id)
   @JoinColumn()
