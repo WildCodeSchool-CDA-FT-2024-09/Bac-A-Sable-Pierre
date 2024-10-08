@@ -29,69 +29,82 @@
 import { ApolloServer } from "@apollo/server"; // preserve-line
 import { startStandaloneServer } from "@apollo/server/standalone";
 
-import repos from "../src/data/repos.json";
-import langs from "../src/data/langs.json";
-import status from "../src/data/status.json";
-import raws from "../src/data/raw.json";
+import { dataSource } from "./db/client";
+import "reflect-metadata";
 
-const typeDefs = `#graphql
-  type Language {
-    size: Int
-    name: String
-  }
+import RepoResolver from "../src/repos/repo.resolvers";
+import { buildSchema } from "type-graphql";
+import LangueResolvers from "./langue/langue.resolvers";
 
-  type Raws {
-    id: String
-    isPrivate: Boolean
-    languages: [Language]
-    name: String
-    url: String
-  }
+// import repos from "../src/data/repos.json";
+// import langs from "../src/data/langs.json";
+// import status from "../src/data/status.json";
+// import raws from "../src/data/raw.json";
 
-  type Repos {
-    id: String
-    name: String
-    url: String
-    isFavorite: Boolean
-  }
+// const typeDefs = `#graphql
+//   type Language {
+//     size: Int
+//     name: String
+//   }
 
-  type Langs {
-    id: String
-    label: String
-  }
+//   type Raws {
+//     id: String
+//     isPrivate: Boolean
+//     languages: [Language]
+//     name: String
+//     url: String
+//   }
 
-  type Status {
-    id: String
-    label: String
-  }
+//   type Repos {
+//     id: String
+//     name: String
+//     url: String
+//     isFavorite: Boolean
+//   }
 
-  type Query {
-    repos: [Repos]
-    langs: [Langs]
-    status: [Status]
-    raws: [Raws]
-  }
-`;
+//   type Langs {
+//     id: String
+//     label: String
+//   }
 
-const resolvers = {
-  Query: {
-    repos: () => repos,
-    langs: () => langs,
-    status: () => status,
-    raws: () =>
-      raws.map((raw) => ({
-        ...raw,
-        languages: raw.languages.map((lang) => ({
-          size: lang.size,
-          name: lang.node.name,
-        })),
-      })),
-  },
-};
+//   type Status {
+//     id: String
+//     label: String
+//   }
 
-const server = new ApolloServer({ typeDefs, resolvers });
+//   type Query {
+//     repos: [Repos]
+//     langs: [Langs]
+//     status: [Status]
+//     raws: [Raws]
+//   }
+// `;
+
+// const resolvers = {
+//   Query: {
+//     // repos: () => repos,
+//     // langs: () => langs,
+//     // status: () => status,
+//     // raws: () =>
+//     //   raws.map((raw) => ({
+//     //     ...raw,
+//     //     languages: raw.languages.map((lang) => ({
+//     //       size: lang.size,
+//     //       name: lang.node.name,
+//     //     })),
+//     //   })),
+//   },
+// };
 
 (async () => {
+  await dataSource.initialize();
+  const schema = await buildSchema({
+    resolvers: [RepoResolver, LangueResolvers],
+    // validate: false,
+  });
+
+  const server = new ApolloServer({ schema });
+
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
   });
