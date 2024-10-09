@@ -35,6 +35,7 @@ import "reflect-metadata";
 import RepoResolver from "../src/repos/repo.resolvers";
 import { buildSchema } from "type-graphql";
 import LangueResolvers from "./langue/langue.resolvers";
+import StatusResolvers from "./status/status.resolvers";
 
 // import repos from "../src/data/repos.json";
 // import langs from "../src/data/langs.json";
@@ -99,7 +100,7 @@ import LangueResolvers from "./langue/langue.resolvers";
 (async () => {
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [RepoResolver, LangueResolvers],
+    resolvers: [RepoResolver, LangueResolvers, StatusResolvers],
     // validate: false,
   });
 

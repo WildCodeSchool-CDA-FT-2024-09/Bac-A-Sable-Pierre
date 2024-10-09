@@ -40,8 +40,8 @@ export default class RepoResolver {
 
     const repo = new Repo();
     repo.id = newRepo.id;
-    repo.name = newRepo.name;
     repo.url = newRepo.url;
+    repo.name = newRepo.name;
 
     const status = await Status.findOneOrFail({
       where: { id: +newRepo.isPrivate },

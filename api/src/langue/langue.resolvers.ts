@@ -11,6 +11,6 @@ export default class LangueResolvers {
       },
     });
     console.log("langue", langue);
-    return Langue;
+    return langue;
   }
 }
