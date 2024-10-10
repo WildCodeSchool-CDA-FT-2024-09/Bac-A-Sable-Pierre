@@ -1,7 +1,8 @@
-import axios from "axios";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
-const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+const client = new ApolloClient({
+  uri: "http://localhost:4000",
+  cache: new InMemoryCache(),
 });
 
-export default instance;
+export default client;

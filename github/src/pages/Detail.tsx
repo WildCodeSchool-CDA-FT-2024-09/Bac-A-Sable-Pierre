@@ -1,41 +1,35 @@
 import { useParams } from "react-router-dom";
-import type { Repo } from "../types/RepoType";
-import { useEffect, useState } from "react";
+import { gql, useQuery } from "@apollo/client";
 
-import connexion from "../services/connexion";
+const GET_REPOS = gql`
+  query Repos {
+    repos {
+      id
+      name
+    }
+  }
+`;
 
 export default function Detail() {
   console.log("Initialisation du Detail");
   const { id } = useParams();
 
-  const [data, setData] = useState<Repo | null>(null);
+  const { loading, error, data } = useQuery(GET_REPOS);
 
-  useEffect(() => {
-    console.log("I'm the useEffect");
-    const fetchRepos = async () => {
-      try {
-        const repos = await connexion.get<Repo[]>(`/api/repos/${id}`);
-        console.log(" useEffect repos", repos);
-        setData(repos.data[0]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchRepos();
-  }, []);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :</p>;
+
+  const repo = data.repos.find((repo: { id: string }) => repo.id === id);
+
+  if (!repo) return <p>Repo not found</p>;
 
   return (
     <>
       <div>Detail du Repo {id}</div>
       <div>
-        {data ? (
-          <>
-            <h1>nom {data.name}</h1>
-            <p>{data.label}</p>
-          </>
-        ) : (
-          <p>Loading...</p>
-        )}
+        <>
+          <h1>nom {repo.name}</h1>
+        </>
       </div>
     </>
   );
