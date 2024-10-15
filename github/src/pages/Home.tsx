@@ -1,39 +1,8 @@
 import "../App.css";
-import type { Repo } from "../types/RepoType";
 
 import RepoCard from "../compenents/RepoCard";
 import { useState } from "react";
-import { gql, useQuery, useMutation } from "@apollo/client";
-
-const GET_REPOS = gql`
-  query Repos {
-    repos {
-      id
-      name
-      url
-      status {
-        label
-      }
-      langs {
-        label
-      }
-    }
-  }
-`;
-
-const ADD_REPO = gql`
-  mutation Mutation($data: RepoInput!) {
-    createNewRepo(data: $data) {
-      id
-      name
-      url
-      status {
-        id
-        label
-      }
-    }
-  }
-`;
+import { useReposQuery, useMutationMutation } from "../generated/graphql-types";
 
 function Home() {
   const [filter, setFilter] = useState<string>("");
@@ -42,22 +11,22 @@ function Home() {
   const [url, setUrl] = useState<string>("");
   const [status, setStatus] = useState<string>("");
 
-  const { loading, error, data } = useQuery(GET_REPOS);
-  const [addRepo] = useMutation(ADD_REPO);
+  const { loading, error, data } = useReposQuery();
+  const [addRepo] = useMutationMutation();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   const filteredRepos = filter
-    ? data.repos.filter((repo: Repo) =>
-        repo.langs.some((lang) => lang.label === filter)
+    ? data?.repos.filter((repo) =>
+        repo?.langs?.some((lang) => lang?.label === filter)
       )
-    : data.repos;
+    : data?.repos;
 
   const handleAddRepo = () => {
     addRepo({
       variables: {
-        data: { id, name, url, status: { label: status } },
+        data: { id, name, url, isPrivate: 0 },
       },
     }).catch((err) => {
       console.error("Submission Error:", err);
@@ -111,7 +80,7 @@ function Home() {
           </div>
         </section>
         <div className="repo-container">
-          {filteredRepos.map((repo: Repo) => (
+          {filteredRepos?.map((repo) => (
             <RepoCard
               key={repo.id}
               id={repo.id}

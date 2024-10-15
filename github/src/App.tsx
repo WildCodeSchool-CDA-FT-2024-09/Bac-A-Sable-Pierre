@@ -9,7 +9,9 @@ function App() {
         <h1>My GitHub !</h1>
       </header>
       <nav>
-        <NavLink to="/">Home</NavLink>
+        <NavLink className="home-navbar" to="/">
+          Home
+        </NavLink>
         <NavLink to="/languages">Languages</NavLink>
       </nav>
       <main>

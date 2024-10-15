@@ -30,4 +30,6 @@ export interface RepoDetail {
     id: number;
     label: string;
   }[];
+  isPrivate: boolean;
+  label: string;
 }
