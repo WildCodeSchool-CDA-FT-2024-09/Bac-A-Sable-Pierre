@@ -1,11 +1,8 @@
 import { dataSource } from "./client";
-
 import { Langue } from "../langue/langue.entities";
 import langs from "../data/langs.json";
-
 import { Status } from "../status/status.entities";
 import status from "../data/status.json";
-
 import { Repo } from "../repos/repo.entities";
 import repos from "../data/repos.json";
 import lang_by_repo from "../data/lang_by_repo.json";
@@ -22,15 +19,16 @@ import lang_by_repo from "../data/lang_by_repo.json";
     await queryRunner.query(`DELETE FROM repo`);
     await queryRunner.query(`DELETE FROM status`);
 
-    await queryRunner.query(
-      `DELETE FROM sqlite_sequence WHERE name='status' OR name='langue'`
-    );
+    if (dataSource.options.type === "sqlite") {
+      await queryRunner.query(
+        `DELETE FROM sqlite_sequence WHERE name='status' OR name='langue'`
+      );
+    }
 
     const savedlangs = await Promise.all(
       langs.map(async (el) => {
         const langue = new Langue();
         langue.label = el.label;
-
         return await langue.save();
       })
     );
@@ -40,11 +38,9 @@ import lang_by_repo from "../data/lang_by_repo.json";
       status.map(async (el) => {
         const status = new Status();
         status.label = el.label;
-
         return await status.save();
       })
     );
-
     console.log(savedStatus);
 
     const savedRepos = await Promise.all(

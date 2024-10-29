@@ -9,7 +9,7 @@
     "fetch": "gh repo list PierreDelarocque --json  id,name,url,languages,isPrivate > ./src/data/raw.json",
     "dev": "ts-node-dev ./src/index.ts",
     "seed": "ts-node-dev ./src/db/seed.ts",
-    "full": "npm run fetch && npm run create && npm run seed && npm run dev"
+    "full": "npm run seed && npm run dev"
   },
   "author": "",
   "license": "ISC",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
-    "@types/node": "^22.7.4",
+    "@types/node": "^22.8.2",
     "nodemon": "^3.1.7",
     "ts-node-dev": "^2.0.0"
   }
