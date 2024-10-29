@@ -4,8 +4,12 @@ import { Langue } from "../langue/langue.entities";
 import { Status } from "../status/status.entities";
 
 export const dataSource = new DataSource({
-  type: "sqlite",
-  database: "./src/db/db.sqlite",
-  entities: [Repo, Langue, Status],
+  type: "postgres",
+  host: "db",
+  port: 5432,
+  username: "postgres",
+  password: "password",
+  database: "postgres",
+  entities: [Repo, Status, Langue],
   synchronize: true,
 });
