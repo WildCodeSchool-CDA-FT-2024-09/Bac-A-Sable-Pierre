@@ -26,6 +26,7 @@ export default function Detail() {
   return (
     <>
       <div>Detail du Repo {id}</div>
+
       <div>
         <>
           <h1>nom {repo.name}</h1>
