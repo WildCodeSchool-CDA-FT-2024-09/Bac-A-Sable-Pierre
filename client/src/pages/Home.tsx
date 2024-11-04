@@ -86,7 +86,7 @@ function Home() {
               id={repo.id}
               name={repo.name}
               url={repo.url}
-              status={repo.status.label}
+              status={status}
               langs={repo.langs}
             />
           ))}
