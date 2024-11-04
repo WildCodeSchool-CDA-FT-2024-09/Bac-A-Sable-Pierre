@@ -107,7 +107,7 @@ import StatusResolvers from "./status/status.resolvers";
   const server = new ApolloServer({ schema });
 
   const { url } = await startStandaloneServer(server, {
-    listen: { port: Number(PORT) },
+    listen: { host: "0.0.0.0", port: Number(PORT) },
   });
 
   console.log(`🚀  Server ready at: ${url}`);
