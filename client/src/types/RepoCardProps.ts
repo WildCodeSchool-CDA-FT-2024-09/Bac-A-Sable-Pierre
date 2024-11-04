@@ -3,5 +3,5 @@ export interface RepoCardProps {
   name: string;
   url: string;
   status: string;
-  langs: { id: number; label: string }[];
+  langs: { label: string }[];
 }

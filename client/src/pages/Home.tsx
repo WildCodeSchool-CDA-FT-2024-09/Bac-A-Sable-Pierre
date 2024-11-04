@@ -1,6 +1,6 @@
 import "../App.css";
 
-import RepoCard from "../compenents/RepoCard";
+import RepoCard from "../../src/compenents/RepoCard";
 import { useState } from "react";
 import { useReposQuery, useMutationMutation } from "../generated/graphql-types";
 

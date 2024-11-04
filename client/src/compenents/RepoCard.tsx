@@ -16,9 +16,9 @@ function RepoCard({ id, name, url, status, langs }: RepoCardProps) {
 
         <ul>
           <h2>Languagues</h2>
-          {langs.map((lang) => (
+          {langs.map((lang, index) => (
             <>
-              <li key={lang.id}> {lang.label}</li>
+              <li key={index}> {lang.label}</li>
             </>
           ))}
           <Link to={`/detail/${id}`}>Détail</Link>
