@@ -7,7 +7,7 @@
 // import "reflect-metadata";
 
 // dotenv.config();
-// const { PORT } = process.env;
+const { PORT } = process.env;
 // const app = express();
 
 // app.use(
@@ -107,7 +107,7 @@ import StatusResolvers from "./status/status.resolvers";
   const server = new ApolloServer({ schema });
 
   const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+    listen: { port: Number(PORT) },
   });
 
   console.log(`🚀  Server ready at: ${url}`);

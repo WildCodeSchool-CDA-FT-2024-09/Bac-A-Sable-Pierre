@@ -10,20 +10,17 @@ import lang_by_repo from "../data/lang_by_repo.json";
 (async () => {
   await dataSource.initialize();
   const queryRunner = dataSource.createQueryRunner();
-  console.log("Database initialized");
+  console.log("Starting seeder");
 
   try {
     await queryRunner.startTransaction();
-    await queryRunner.query(`DELETE FROM langue_repos_repo`);
-    await queryRunner.query(`DELETE FROM langue`);
-    await queryRunner.query(`DELETE FROM repo`);
-    await queryRunner.query(`DELETE FROM status`);
+    await queryRunner.query("TRUNCATE langue_repos_repo CASCADE");
+    await queryRunner.query("TRUNCATE langue CASCADE");
+    await queryRunner.query("TRUNCATE repo CASCADE");
+    await queryRunner.query("TRUNCATE status CASCADE");
 
-    if (dataSource.options.type === "sqlite") {
-      await queryRunner.query(
-        `DELETE FROM sqlite_sequence WHERE name='status' OR name='langue'`
-      );
-    }
+    console.log("Truncate DONE");
+    await queryRunner.commitTransaction();
 
     const savedlangs = await Promise.all(
       langs.map(async (el) => {
@@ -32,7 +29,7 @@ import lang_by_repo from "../data/lang_by_repo.json";
         return await langue.save();
       })
     );
-    console.log(savedlangs);
+    console.info("savedlangs");
 
     const savedStatus = await Promise.all(
       status.map(async (el) => {
@@ -41,19 +38,21 @@ import lang_by_repo from "../data/lang_by_repo.json";
         return await status.save();
       })
     );
-    console.log(savedStatus);
+    console.log("savedStatus");
 
-    const savedRepos = await Promise.all(
+    //const savedRepos =
+    await Promise.all(
       repos.map(async (el) => {
         const repo = new Repo();
         repo.id = el.id;
         repo.name = el.name;
         repo.url = el.url;
 
-        const status = savedStatus.find(
-          (st) => st.id === el.isPrivate
-        ) as Status;
-        repo.status = status;
+        //const status = savedStatus.find(
+        //(st) => st.id === el.isPrivate
+        //) as Status;
+        //repo.status = status;
+        repo.status = savedStatus[0];
 
         const mylangs = savedlangs.filter((svLg) => {
           console.log("repoID", el.id);
@@ -71,8 +70,11 @@ import lang_by_repo from "../data/lang_by_repo.json";
         return await repo.save();
       })
     );
-    console.log(savedRepos);
-    await queryRunner.commitTransaction();
+    //console.log(savedRepos);
+
+    console.info("Seeder is DONE");
+    await dataSource.destroy();
+    return;
   } catch (error) {
     console.log(error);
     await queryRunner.rollbackTransaction();

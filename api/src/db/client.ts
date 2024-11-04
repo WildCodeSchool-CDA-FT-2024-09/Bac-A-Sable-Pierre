@@ -17,4 +17,5 @@ export const dataSource = new DataSource({
   database: POSTGRES_DB,
   entities: [Repo, Status, Langue],
   synchronize: true,
+  logging: false,
 });
