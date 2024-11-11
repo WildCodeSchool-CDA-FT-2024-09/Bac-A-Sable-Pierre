@@ -24,7 +24,7 @@ import UserResolver from "./user/user.resolvers";
     listen: { host: "0.0.0.0", port: Number(PORT) },
     context: async ({ req, res }) => {
       console.log(req);
-      return res;
+      return { req, res };
     },
   });
 
