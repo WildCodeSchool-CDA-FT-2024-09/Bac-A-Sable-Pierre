@@ -1,4 +1,12 @@
-import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Field,
+  InputType,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { Repo } from "./repo.entities";
 import { Status } from "../status/status.entities";
 
@@ -20,6 +28,7 @@ class RepoInput implements Partial<Repo> {
 @Resolver(Repo)
 export default class RepoResolver {
   // Methode GET pour recuperer tous les repos
+  @Authorized("admin", "sudo")
   @Query(() => [Repo])
   async repos() {
     const repos = await Repo.find({
@@ -28,7 +37,7 @@ export default class RepoResolver {
         langs: true,
       },
     });
-    console.log("repos", repos);
+
     return repos;
   }
 
@@ -36,7 +45,6 @@ export default class RepoResolver {
   async createNewRepo(@Arg("data") newRepo: RepoInput) {
     //const newRepo: RepoInput = req.body.data
     // fonction de validation
-    console.info(newRepo);
 
     const repo = new Repo();
     repo.id = newRepo.id;
@@ -49,7 +57,7 @@ export default class RepoResolver {
     repo.status = status;
 
     await repo.save();
-    console.log("repo", repo);
+
     const myRepo = await Repo.findOneOrFail({
       where: { id: newRepo.id },
       relations: {
