@@ -28,4 +28,10 @@ const GET_LANGUAGES = gql`
   }
 `;
 
-export { GET_LANGUAGES, GET_REPOS };
+const LOGIN = gql`
+  query Login($email: String!, $password: String!) {
+    login(email: $email, password: $password)
+  }
+`;
+
+export { GET_LANGUAGES, GET_REPOS, LOGIN };

@@ -2,10 +2,14 @@ import "../App.css";
 
 import RepoCard from "../../src/compenents/RepoCard";
 import { useState } from "react";
-import { useReposQuery, useMutationMutation } from "../generated/graphql-types";
+import {
+  useReposQuery,
+  useMutationMutation,
+  useLoginLazyQuery,
+} from "../generated/graphql-types";
 
 function Home() {
-  const [filter, setFilter] = useState<string>("");
+  const [filter] = useState<string>("");
   const [id, setId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [url, setUrl] = useState<string>("");
@@ -13,6 +17,17 @@ function Home() {
 
   const { loading, error, data } = useReposQuery();
   const [addRepo] = useMutationMutation();
+  const [login] = useLoginLazyQuery();
+
+  const handleLogin = async () => {
+    // useQuery...
+    await login({
+      variables: {
+        email: "test@test.com",
+        password: "argon2hash",
+      },
+    });
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -36,21 +51,9 @@ function Home() {
   return (
     <>
       <div>
-        <label htmlFor="language-filter">Filter by Language </label>
-        <select
-          id="language-filter"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        >
-          <option value="">All</option>
-          <option value="JavaScript">JavaScript</option>
-          <option value="HTML">HTML</option>
-          <option value="SCSS">SCSS</option>
-          <option value="TypeScript">TypeScript</option>
-          <option value="Shell">Shell</option>
-          <option value="CSS">CSS</option>
-          <option value="Dockerfile">Dockerfile</option>
-        </select>
+        <button type="button" onClick={handleLogin}>
+          LOGIN
+        </button>
       </div>
 
       <main>
