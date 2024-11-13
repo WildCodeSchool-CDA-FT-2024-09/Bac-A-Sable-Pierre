@@ -1,12 +1,32 @@
-import express from "express";
-import router from "./router";
+const { PORT } = process.env;
 
-const app = express();
+import { ApolloServer } from "@apollo/server"; // preserve-line
+import { startStandaloneServer } from "@apollo/server/standalone";
 
-app.use(express.json());
+import { dataSource } from "./db/client";
+import "reflect-metadata";
 
-app.use(`/api`, router);
+import RepoResolver from "../src/repos/repo.resolvers";
+import { buildSchema } from "type-graphql";
+import LangueResolvers from "./langue/langue.resolvers";
+import StatusResolvers from "./status/status.resolvers";
+import UserResolver from "./user/user.resolvers";
 
-app.listen(3000, async () => {
-  console.log(`serveur is listenning on http://localhost:3000`);
-});
+(async () => {
+  await dataSource.initialize();
+  const schema = await buildSchema({
+    resolvers: [RepoResolver, LangueResolvers, StatusResolvers, UserResolver],
+  });
+
+  const server = new ApolloServer({ schema });
+
+  const { url } = await startStandaloneServer(server, {
+    listen: { host: "0.0.0.0", port: Number(PORT) },
+    context: async ({ req, res }) => {
+      console.log(req);
+      return { req, res };
+    },
+  });
+
+  console.log(`🚀  Server ready at: ${url}`);
+})();

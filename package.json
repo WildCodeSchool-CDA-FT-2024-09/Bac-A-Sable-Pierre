@@ -1,0 +1,13 @@
+{
+  "name": "bac-a-sable-pierre",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fullinstall": "npm install && cd ./client && npm install && cd ../api && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

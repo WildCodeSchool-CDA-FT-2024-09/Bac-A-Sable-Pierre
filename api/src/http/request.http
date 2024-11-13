@@ -1,0 +1,43 @@
+###afficher repo
+GET http://localhost:3000/api/repos
+
+### create repo
+POST  http://localhost:3000/api/repos
+Content-Type: application/json
+
+{
+    "id": "kikikiki",
+    "name": "lepetitkiki",
+    "url": "http://lepetitkiki.com",
+    "status": 1,
+    "langs": [1]
+  }
+
+
+### afficher language
+
+GET http://localhost:3000/api/langue
+
+### create language
+POST http://localhost:3000/api/langue
+Content-Type: application/json
+
+{
+    
+    "label": "Dockerfile"
+  }
+### Afficher status
+
+GET http://localhost:3000/api/status
+
+### create status
+POST http://localhost:3000/api/status
+Content-Type: application/json
+
+{
+    
+    "label": "public"
+  }
+
+  ### add repo with lang
+  POST http://localhost:3000/api/repos
