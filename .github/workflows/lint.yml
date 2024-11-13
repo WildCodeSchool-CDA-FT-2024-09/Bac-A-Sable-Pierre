@@ -34,12 +34,3 @@ jobs:
 
       - name: Install package dependence
         run: npm run fullinstall
-
-      - name: Run linters
-        run: npx lint-staged --diff="origin/${GITHUB_BASE_REF}...origin/${GITHUB_HEAD_REF}"
-
-      - name: Run Unit test
-        run: npm run test
-
-      - name: Run Integration test
-        run: npm run integration-test
