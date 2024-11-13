@@ -4,13 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fullinstall": "cd ./api && npm run test",
-    "test": "npx jest"
+    "fullinstall": "cd ./api && npm run test"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "jest": "^29.7.0"
-  }
+  "license": "ISC"
 }
